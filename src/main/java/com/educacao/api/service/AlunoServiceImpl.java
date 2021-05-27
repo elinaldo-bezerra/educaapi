@@ -27,10 +27,10 @@ public class AlunoServiceImpl implements AlunoService {
 		return alunoRepository.findByMatricula(matricula);
 	}
   
-	@Override
-	public List<Aluno> findAllOrderName() {
-		return alunoRepository.findAllOrderName();
-	}
+//	@Override
+//	public List<Aluno> findAllOrderName() {
+//		return alunoRepository.findAllOrderName();
+//	}
 
 	@Override
 	public Aluno saveOrUpdateAluno(Aluno aluno) {
@@ -38,7 +38,7 @@ public class AlunoServiceImpl implements AlunoService {
 	}
 
 	@Override
-	public void deleteStudentById(String id) {
+	public void deleteAlunoById(String id) {
 		alunoRepository.deleteById(id);
 	}
 }

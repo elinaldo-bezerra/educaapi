@@ -13,9 +13,9 @@ public interface AlunoService {
 
 	Aluno findByMatricula(String aluno);
  
-	List<Aluno> findAllOrderName();
+//	List<Aluno> findAllOrderName();
 
 	Aluno saveOrUpdateAluno(Aluno aluno);
 
-	void deleteStudentById(String id);
+	void deleteAlunoById(String id);
 }

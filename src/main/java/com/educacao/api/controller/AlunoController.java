@@ -15,36 +15,36 @@ import java.util.List;
  * @author eli
  */
 @RestController
-@RequestMapping("/aluno")
+@RequestMapping("/api/aluno")
 public class AlunoController {
 
     @Autowired
     private AlunoService alunoService;
 
-    @GetMapping(value = "/todos")
-    public List<Aluno> getAllStudents() {
+    @GetMapping(value = "/listar")
+    public List<Aluno> getAllAlunos() {
         return alunoService.findAll();
     }
 
-    @GetMapping(value = "/matricula/{matricula}")
-    public Aluno getStudentByStudentNumber(@PathVariable("studentNumber") String matricula) {
+    @GetMapping(value = "/{matricula}")
+    public Aluno getAlunoMatricula(@PathVariable("matricula") String matricula) {
         return alunoService.findByMatricula(matricula);
     }
  
-    @GetMapping(value = "/orderByname")
-    public List<Aluno> findAllByOrderByGpaDesc() {
-        return alunoService.findAllOrderName();
-    }
+//    @GetMapping(value = "/orderByname")
+//    public List<Aluno> findAllOrderName() {
+//        return alunoService.findAllOrderName();
+//    }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<Aluno> saveOrUpdateStudent(@RequestBody Aluno aluno) {
+    public ResponseEntity<Aluno> saveOrUpdateAluno(@RequestBody Aluno aluno) {
         alunoService.saveOrUpdateAluno(aluno);
         return new ResponseEntity("Aluno adicionado com sucesso!", HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/delete/{matricula}")
-    public ResponseEntity<Aluno> deleteStudentByStudentNumber(@PathVariable String matricula) {   
-        alunoService.deleteStudentById(alunoService.findByMatricula(matricula).getId());
+    public ResponseEntity<Aluno> deleteAlunoByMatricula(@PathVariable String matricula) {   
+        alunoService.deleteAlunoById(alunoService.findByMatricula(matricula).getId());
         return new ResponseEntity("Aluno removido com sucesso!", HttpStatus.OK);
     }
 }

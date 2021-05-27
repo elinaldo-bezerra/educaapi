@@ -13,5 +13,5 @@ public interface AlunoRepository extends MongoRepository<Aluno, String> {
 
     Aluno findByMatricula(String matricula);
 
-    List<Aluno> findAllOrderName();
+//    List<Aluno> findAllOrderName();
 }

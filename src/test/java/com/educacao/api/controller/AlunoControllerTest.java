@@ -73,32 +73,32 @@ public class AlunoControllerTest {
                 .andExpect(jsonPath("$[0].name", is(alunox.getName())));
     }
     
-    @Test
-    public void givenAluno_whenFindAllOrderName_thenReturnJsonArray() throws Exception {
-        given(service.findAllOrderName()).willReturn(Arrays.asList(alunoy, alunox));
+//    @Test
+//    public void givenAlunoOrderNameReturnJsonArray() throws Exception {
+//        given(service.findAllOrderName()).willReturn(Arrays.asList(alunoy, alunox));
+//
+//        mvc.perform(get("/aluno/orderByname/")
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$", hasSize(2)))
+//                .andExpect(jsonPath("$[0].name", is(alunoy.getName())));
+//    }
 
-        mvc.perform(get("/students/orderByname/")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].name", is(alunoy.getName())));
-    }
-
     @Test
-    public void saveStudent_itShouldReturnStatusOk() throws Exception {
+    public void saveAlunoReturnStatusOk() throws Exception {
         given(service.saveOrUpdateAluno(any(Aluno.class))).willReturn(alunoy);
 
         String jsonString = objectMapper.writeValueAsString(alunoy);
 
-        mvc.perform(post("/students/save/")
+        mvc.perform(post("/aluno/save/")
                 .contentType(MediaType.APPLICATION_JSON).content(jsonString))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void deleteStudentByStudentNumber_itShouldReturnStatusOk() throws Exception {
+    public void deleteAlunoByMatriculaReturnStatusOk() throws Exception {
         given(service.findByMatricula(matricula_x)).willReturn(alunox);
-        Mockito.doNothing().when(service).deleteStudentById(any(String.class));
+        Mockito.doNothing().when(service).deleteAlunoById(matricula_x);
 
         mvc.perform(delete("/aluno/delete/{matricula}", matricula_x)
                 .contentType(MediaType.APPLICATION_JSON))
