@@ -1,4 +1,4 @@
-package com.educa.educaapi;
+package com.educacao.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
