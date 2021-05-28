@@ -1,107 +1,114 @@
 package com.educacao.api.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.educacao.api.model.Aluno;
 import com.educacao.api.service.AlunoService;
+import static org.mockito.BDDMockito.given;
 
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Arrays;
-
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.reactive.function.BodyInserters;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * @author eli
  */
-@SpringBootTest
+@RunWith(SpringRunner.class)
+@WebFluxTest(controllers = AlunoController.class)
 public class AlunoControllerTest {
 
     @Autowired
-    private MockMvc mvc;
+    WebTestClient client;
 
     @MockBean
-    private AlunoService service;
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    private Aluno alunox;
-    private Aluno alunoy;
-
-    private String matricula_x;
-    private String matricula_y;
+    AlunoService alunoService;
 
     @Test
-    void contextLoads() {
-        Assert.assertTrue(true);
-    }
+    public void testGetProductByCodeShouldBeOk() {
 
-    @Before
-    public void setup() {
-        alunox = new Aluno();
-        alunox.setId("1");
-        alunox.setName("eli");
-        alunox.setMatricula(matricula_x);
+        final Aluno aluno = new Aluno("1", "1111", "ELINALDO", "url da imagem", null);
 
-        alunoy = new Aluno();
-        alunoy.setId("2");
-        alunoy.setName("ana");
-        alunoy.setMatricula(matricula_y);
+        given(alunoService.findByMatricula("1111")).willReturn(Mono.just(aluno));
+
+        client.get().uri("/api/aluno/1111")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo("1")
+                .jsonPath("$.matricula").isEqualTo("1111")
+                .jsonPath("$.name").isEqualTo("ELINALDO")
+                .jsonPath("$.imagem").isEqualTo("url da imagem")
+                .jsonPath("$.turma").isEqualTo(null);
     }
 
     @Test
-    public void givenAllAlunosReturnJsonArray() throws Exception {
-        given(service.findAll()).willReturn(Arrays.asList(alunox));
+    public void testGetInvalidAlunoShouldReturnNotFound() {
+        given(alunoService.findByMatricula("000")).willReturn(Mono.empty());
 
-        mvc.perform(get("/alunos/")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name", is(alunox.getName())));
-    }
-    
-//    @Test
-//    public void givenAlunoOrderNameReturnJsonArray() throws Exception {
-//        given(service.findAllOrderName()).willReturn(Arrays.asList(alunoy, alunox));
-//
-//        mvc.perform(get("/aluno/orderByname/")
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$", hasSize(2)))
-//                .andExpect(jsonPath("$[0].name", is(alunoy.getName())));
-//    }
-
-    @Test
-    public void saveAlunoReturnStatusOk() throws Exception {
-        given(service.saveOrUpdateAluno(any(Aluno.class))).willReturn(alunoy);
-
-        String jsonString = objectMapper.writeValueAsString(alunoy);
-
-        mvc.perform(post("/aluno/save/")
-                .contentType(MediaType.APPLICATION_JSON).content(jsonString))
-                .andExpect(status().isOk());
+        client.get().uri("/api/aluno/1111").exchange()
+                .expectStatus().isNotFound();
     }
 
     @Test
-    public void deleteAlunoByMatriculaReturnStatusOk() throws Exception {
-        given(service.findByMatricula(matricula_x)).willReturn(alunox);
-        Mockito.doNothing().when(service).deleteAlunoById(matricula_x);
+    public void testPostValidAlunoShouldReturnCreate() {
+        final Aluno aluno = new Aluno("1", "1111", "ELINALDO", "url da imagem", null);
 
-        mvc.perform(delete("/aluno/delete/{matricula}", matricula_x)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+        given(alunoService.save(BDDMockito.any(Aluno.class))).willReturn(Mono.just(aluno));
+
+        client.post().uri("/create/").body(BodyInserters.fromObject(aluno))
+                .exchange()
+                .expectStatus().isCreated()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo("1")
+                .jsonPath("$.matricula").isEqualTo("1111")
+                .jsonPath("$.name").isEqualTo("ELINALDO")
+                .jsonPath("$.imagem").isEqualTo("url da imagem")
+                .jsonPath("$.turma").isEqualTo(null);
     }
+
+    @Test
+    public void testPostInvalidAlunoShouldReturnBadRequest() {
+        final Aluno aluno = new Aluno();
+        aluno.setMatricula("DADOS INVÁLIDOS");
+
+        client.post().uri("/lista").body(BodyInserters.fromObject(aluno))
+                .exchange()
+                .expectStatus().isBadRequest();
+    }
+
+    @Test
+    public void testDeleteValidProductShouldReturnAccept() {
+        given(alunoService.deleteByMatricula("1111")).willReturn(Mono.empty());
+
+        client.delete().uri("/delete/1111")
+                .exchange()
+                .expectStatus().isAccepted();
+    }
+
+    @Test
+    public void testGetAllProductShouldBeOk() {
+        final Aluno aluno1 = new Aluno("1", "1111", "ELINALDO", "url da imagem de elinaldo", null);
+        final Aluno aluno2 = new Aluno("1", "2222", "ELIANA", "url da imagem de eliana", null);
+
+        given(alunoService.findAll()).willReturn(Flux.just(aluno1, aluno2));
+
+        client.get().uri("/lista")
+                .accept(MediaType.APPLICATION_STREAM_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentTypeCompatibleWith(MediaType.APPLICATION_STREAM_JSON)
+                .expectBodyList(Aluno.class);
+    }
+
 }

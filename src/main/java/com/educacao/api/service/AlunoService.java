@@ -1,21 +1,19 @@
 package com.educacao.api.service;
 
-import java.util.List;
-
 import com.educacao.api.model.Aluno;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * @author eli
  */
 public interface AlunoService {
 
-	List<Aluno> findAll();
+    Mono<Aluno> save(Aluno aluno);
 
-	Aluno findByMatricula(String aluno);
- 
-//	List<Aluno> findAllOrderName();
+    Mono<Aluno> findByMatricula(String matricula);
 
-	Aluno saveOrUpdateAluno(Aluno aluno);
+    Mono<Void> deleteByMatricula(String matricula);
 
-	void deleteAlunoById(String id);
+    Flux<Aluno> findAll();
 }

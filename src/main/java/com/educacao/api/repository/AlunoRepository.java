@@ -1,17 +1,16 @@
 package com.educacao.api.repository;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-
 import com.educacao.api.model.Aluno;
-
-import java.util.List;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import reactor.core.publisher.Mono;
 
 /**
- * @author eli 
- */ 
-public interface AlunoRepository extends MongoRepository<Aluno, String> {
+ * @author eli
+ */
+public interface AlunoRepository extends ReactiveCrudRepository<Aluno, String> {
 
-    Aluno findByMatricula(String matricula);
+    public Mono<Aluno> findByMatricula(String matricula);
 
-//    List<Aluno> findAllOrderName();
+    public Mono<Void> deleteByMatricula(String matricula);
+
 }
