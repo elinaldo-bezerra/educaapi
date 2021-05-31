@@ -18,8 +18,9 @@ import reactor.core.publisher.Mono;
  * @author eli
  */
 @RestController
-@RequestMapping("/api/aluno")
-@Slf4j
+@RequestMapping("/api/v1/aluno")
+@Slf4j 
+ 
 public class AlunoController {
 
     @Autowired
@@ -30,9 +31,18 @@ public class AlunoController {
         this.alunoService = alunoService;
     }
 
+    //FIND ALL 
+    @GetMapping(path = "/lista")  
+    @ResponseStatus(HttpStatus.OK)
+      @CrossOrigin
+    public Flux<Aluno> findAll() {
+        return alunoService.findAll().delayElements(Duration.ofMillis(300));
+    }
+
     //CREATE
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
+    @CrossOrigin
     public Mono<Aluno> create(@Valid @RequestBody Aluno aluno) {
         return alunoService.save(aluno);
     }
@@ -40,6 +50,7 @@ public class AlunoController {
     //SAVE
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
+    @CrossOrigin
     public Mono<Aluno> save(@Valid @RequestBody Aluno aluno) {
         return alunoService.save(aluno);
     }
@@ -47,6 +58,7 @@ public class AlunoController {
     //UPDATE
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin
     public Mono<Aluno> update(@Valid @RequestBody Mono<Aluno> aluno) {
         return aluno.flatMap(p -> alunoService.save(p));
     }
@@ -54,6 +66,7 @@ public class AlunoController {
     //FIND ONE BY MATRICULA
     @GetMapping("/{matricula}")
     @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin
     public Mono<Aluno> findOne(@PathVariable String matricula) {
         return alunoService.findByMatricula(matricula)
                 .switchIfEmpty(Mono.error(new ExceptionsNotFoundException("Aluno[%s].notFound", matricula)));
@@ -62,17 +75,12 @@ public class AlunoController {
     //DELETE ONE BY MATRICULA
     @DeleteMapping("/{matricula}")
     @ResponseStatus(HttpStatus.ACCEPTED)
+    @CrossOrigin
     public Mono<Void> delete(@PathVariable String matricula) {
         return alunoService.deleteByMatricula(matricula);
     }
 
-    //FIND ALL
-    @GetMapping(path = "/lista")
-    @ResponseStatus(HttpStatus.OK)
-    public Flux<Aluno> findAll() {
-        return alunoService.findAll().delayElements(Duration.ofMillis(300));
-    }
-//
+// 
 //    @GetMapping(value = "/lista")
 //    public List<Aluno> getAllAlunos() {
 //        return alunoService.findAll();
@@ -82,7 +90,6 @@ public class AlunoController {
 //    public Aluno getAlunoMatricula(@PathVariable("matricula") String matricula) {
 //        return alunoService.findByMatricula(matricula);
 //    }
-
 //    @GetMapping(value = "/orderByname")
 //    public List<Aluno> findAllOrderName() {
 //        return alunoService.findAllOrderName();
