@@ -19,8 +19,7 @@ import reactor.core.publisher.Mono;
  */
 @RestController
 @RequestMapping("/api/v1/aluno")
-@Slf4j 
- 
+@Slf4j  
 public class AlunoController {
 
     @Autowired
@@ -71,7 +70,7 @@ public class AlunoController {
         return alunoService.findByMatricula(matricula)
                 .switchIfEmpty(Mono.error(new ExceptionsNotFoundException("Aluno[%s].notFound", matricula)));
     }
-
+ 
     //DELETE ONE BY MATRICULA
     @DeleteMapping("/{matricula}")
     @ResponseStatus(HttpStatus.ACCEPTED)

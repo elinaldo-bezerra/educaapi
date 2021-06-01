@@ -14,3 +14,4 @@ public interface AlunoRepository extends ReactiveCrudRepository<Aluno, String> {
     public Mono<Void> deleteByMatricula(String matricula);
 
 }
+ 

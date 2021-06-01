@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * @author eli
  */
-@Document
+@Document 
 public class Bimestre {
 
     @Id

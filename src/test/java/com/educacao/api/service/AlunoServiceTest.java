@@ -17,7 +17,7 @@ import reactor.core.publisher.Flux;
 /**
  * @author eli
  */
-public class AlunoServiceTest {
+public class AlunoServiceTest { 
     
 
 //    @TestConfiguration

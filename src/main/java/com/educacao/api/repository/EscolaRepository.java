@@ -9,3 +9,4 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 public interface EscolaRepository extends ReactiveCrudRepository<Escola, String> {
 
 }
+ 

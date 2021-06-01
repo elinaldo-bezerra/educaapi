@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author eli
  */
 @Document
-public class Turma {
+public class Turma { 
 
     @Id
     private String id;

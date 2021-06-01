@@ -11,7 +11,7 @@ public interface EscolaService {
 
     Mono<Escola> save(Escola escola);
 
-    Mono<Escola> findById(String id);
+    Mono<Escola> findById(String id); 
 
     Mono<Void> deleteById(String id);
 

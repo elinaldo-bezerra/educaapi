@@ -20,7 +20,7 @@ public class AlunoServiceImpl implements AlunoService {
     @Autowired
     public AlunoServiceImpl(AlunoRepository repository) {
         this.alunoRepository = repository;
-    }
+    } 
 
     @Override
     public Mono<Aluno> save(Aluno aluno) {

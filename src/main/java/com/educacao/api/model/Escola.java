@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @author eli
+ * @author eliboots
  */
 @Document
-public class Escola {
+public class Escola { 
     @Id
     private String id;
     private String name;

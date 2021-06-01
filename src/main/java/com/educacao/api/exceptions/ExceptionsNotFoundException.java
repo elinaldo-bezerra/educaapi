@@ -2,7 +2,7 @@ package com.educacao.api.exceptions;
 
 /**
  *
- * @author el1
+ * @author el1 
  */
 public class ExceptionsNotFoundException extends RuntimeException {
 
