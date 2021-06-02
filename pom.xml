@@ -17,7 +17,7 @@
     <description>Projeto de avaliação Java/Angular</description>
     
     <properties>
-        <java.version>9</java.version>
+        <java.version>8</java.version>
     </properties>
     
     <dependencies>
