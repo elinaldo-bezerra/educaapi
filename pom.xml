@@ -15,9 +15,11 @@
     <name>educaapi</name>
     
     <description>Projeto de avaliação Java/Angular</description>
+    
     <properties>
         <java.version>11</java.version>
     </properties>
+    
     <dependencies>
         
         <dependency>
@@ -85,6 +87,16 @@
             <version>8.0</version>
             <type>jar</type>
         </dependency>
-    </dependencies>   
+    </dependencies>  
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.heroku.sdk</groupId>
+                <artifactId>heroku-maven-plugin</artifactId>
+                <version>3.0.3</version>
+            </plugin>
+        </plugins>
+    </build> 
      
 </project>
