@@ -29,8 +29,7 @@ public class EscolaController {
 
     //FIND ALL    
     @GetMapping(path = "/lista")
-    @ResponseStatus(HttpStatus.OK)
-    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK) 
     public Flux<Escola> findAll() {
         return escolaService.findAll().delayElements(Duration.ofMillis(300));
     }

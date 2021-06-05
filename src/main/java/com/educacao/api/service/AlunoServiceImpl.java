@@ -43,8 +43,8 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public Mono<Void> deleteById(String matricula) {
-        return alunoRepository.deleteByMatricula(matricula);
+    public Mono<Void> deleteById(String id) {
+        return alunoRepository.deleteById(id);
     }
 
 }

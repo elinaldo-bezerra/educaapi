@@ -15,7 +15,6 @@ import reactor.core.publisher.Mono;
 /**
  * @author eli
  */
-//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/aluno")
 public class AlunoController {
@@ -30,55 +29,48 @@ public class AlunoController {
 
     //FIND ALL 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK) 
     public Flux<Aluno> findAll() {
         return service.findAll().delayElements(Duration.ofMillis(300));
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK) 
     public Mono<Aluno> getAlunoById(@PathVariable String id) {
         return service.findById(id);
     }
 
     //FIND ONE BY MATRICULA
     @GetMapping("/matricula/{matricula}")
-    @ResponseStatus(HttpStatus.OK)
-    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK) 
     public Mono<Aluno> findOne(@PathVariable String matricula) {
         return service.findByMatricula(matricula);
     }
 
     //CREATE
     @PostMapping("/create")
-    @ResponseStatus(HttpStatus.CREATED)
-    @CrossOrigin
+    @ResponseStatus(HttpStatus.CREATED) 
     public Mono<Aluno> create(@Valid @RequestBody Aluno aluno) {
         return service.save(aluno);
     }
 
     //SAVE
     @PostMapping("/save")
-    @ResponseStatus(HttpStatus.CREATED)
-    @CrossOrigin
+    @ResponseStatus(HttpStatus.CREATED) 
     public Mono<Aluno> save(@Valid @RequestBody Aluno aluno) {
         return service.save(aluno);
     }
 
     //UPDATE
     @PutMapping("/update")
-    @ResponseStatus(HttpStatus.OK)
-    @CrossOrigin
+    @ResponseStatus(HttpStatus.OK) 
     public Mono<Aluno> update(@Valid @RequestBody Mono<Aluno> aluno) {
         return aluno.flatMap(p -> service.save(p));
     }
 
     //DELETE ONE BY MATRICULA
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @CrossOrigin
+    @ResponseStatus(HttpStatus.ACCEPTED) 
     public Mono<Void> delete(@PathVariable String id) {
         return service.deleteById(id);
     }

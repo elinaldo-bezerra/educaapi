@@ -14,6 +14,6 @@ public interface AlunoRepository extends ReactiveCrudRepository<Aluno, String> {
 
     public Flux<Aluno> findByName(String name);
 
-    public Mono<Void> deleteByMatricula(String matricula);
+    public Mono<Void> deleteById(String id);
 
 }
