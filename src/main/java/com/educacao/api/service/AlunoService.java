@@ -11,10 +11,11 @@ public interface AlunoService {
 
     Mono<Aluno> save(Aluno aluno);
 
+    Mono<Aluno> findById(String id);
+
     Mono<Aluno> findByMatricula(String matricula);
 
-    Mono<Void> deleteByMatricula(String matricula);
+    Mono<Void> deleteById(String id);
 
     Flux<Aluno> findAll();
 }
- 

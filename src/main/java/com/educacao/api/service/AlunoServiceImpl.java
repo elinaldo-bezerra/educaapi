@@ -36,9 +36,14 @@ public class AlunoServiceImpl implements AlunoService {
     public Mono<Aluno> findByMatricula(String matricula) {
         return alunoRepository.findByMatricula(matricula);
     }
+    
+    @Override
+    public Mono<Aluno> findById(String id) {
+        return alunoRepository.findById(id);
+    }
 
     @Override
-    public Mono<Void> deleteByMatricula(String matricula) {
+    public Mono<Void> deleteById(String matricula) {
         return alunoRepository.deleteByMatricula(matricula);
     }
 

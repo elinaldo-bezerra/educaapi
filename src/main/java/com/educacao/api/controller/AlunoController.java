@@ -1,6 +1,5 @@
 package com.educacao.api.controller;
 
-import com.educacao.api.exceptions.ExceptionsNotFoundException;
 import com.educacao.api.model.Aluno;
 import com.educacao.api.service.AlunoService;
 import java.time.Duration;
@@ -9,33 +8,47 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
+
 import reactor.core.publisher.Mono;
 
 /**
  * @author eli
  */
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/aluno")
-@Slf4j  
 public class AlunoController {
 
     @Autowired
-    private AlunoService alunoService;
+    private AlunoService service;
 
     @Autowired
-    public AlunoController(final AlunoService alunoService) {
-        this.alunoService = alunoService;
+    public AlunoController(final AlunoService service) {
+        this.service = service;
     }
 
     //FIND ALL 
-    @GetMapping(path = "/lista")  
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-      @CrossOrigin
+    @CrossOrigin
     public Flux<Aluno> findAll() {
-        return alunoService.findAll().delayElements(Duration.ofMillis(300));
+        return service.findAll().delayElements(Duration.ofMillis(300));
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin
+    public Mono<Aluno> getAlunoById(@PathVariable String id) {
+        return service.findById(id);
+    }
+
+    //FIND ONE BY MATRICULA
+    @GetMapping("/matricula/{matricula}")
+    @ResponseStatus(HttpStatus.OK)
+    @CrossOrigin
+    public Mono<Aluno> findOne(@PathVariable String matricula) {
+        return service.findByMatricula(matricula);
     }
 
     //CREATE
@@ -43,7 +56,7 @@ public class AlunoController {
     @ResponseStatus(HttpStatus.CREATED)
     @CrossOrigin
     public Mono<Aluno> create(@Valid @RequestBody Aluno aluno) {
-        return alunoService.save(aluno);
+        return service.save(aluno);
     }
 
     //SAVE
@@ -51,7 +64,7 @@ public class AlunoController {
     @ResponseStatus(HttpStatus.CREATED)
     @CrossOrigin
     public Mono<Aluno> save(@Valid @RequestBody Aluno aluno) {
-        return alunoService.save(aluno);
+        return service.save(aluno);
     }
 
     //UPDATE
@@ -59,48 +72,15 @@ public class AlunoController {
     @ResponseStatus(HttpStatus.OK)
     @CrossOrigin
     public Mono<Aluno> update(@Valid @RequestBody Mono<Aluno> aluno) {
-        return aluno.flatMap(p -> alunoService.save(p));
+        return aluno.flatMap(p -> service.save(p));
     }
 
-    //FIND ONE BY MATRICULA
-    @GetMapping("/{matricula}")
-    @ResponseStatus(HttpStatus.OK)
-    @CrossOrigin
-    public Mono<Aluno> findOne(@PathVariable String matricula) {
-        return alunoService.findByMatricula(matricula)
-                .switchIfEmpty(Mono.error(new ExceptionsNotFoundException("Aluno[%s].notFound", matricula)));
-    }
- 
     //DELETE ONE BY MATRICULA
-    @DeleteMapping("/{matricula}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @CrossOrigin
-    public Mono<Void> delete(@PathVariable String matricula) {
-        return alunoService.deleteByMatricula(matricula);
+    public Mono<Void> delete(@PathVariable String id) {
+        return service.deleteById(id);
     }
 
-// 
-//    @GetMapping(value = "/lista")
-//    public List<Aluno> getAllAlunos() {
-//        return alunoService.findAll();
-//    }
-//
-//    @GetMapping(value = "/{matricula}")
-//    public Aluno getAlunoMatricula(@PathVariable("matricula") String matricula) {
-//        return alunoService.findByMatricula(matricula);
-//    }
-//    @GetMapping(value = "/orderByname")
-//    public List<Aluno> findAllOrderName() {
-//        return alunoService.findAllOrderName();
-//    }
-//    @PostMapping(value = "/save")
-//    public ResponseEntity<Aluno> saveOrUpdateAluno(@RequestBody Aluno aluno) {
-//        alunoService.saveOrUpdateAluno(aluno);
-//        return new ResponseEntity("Aluno adicionado com sucesso!", HttpStatus.OK);
-//    }
-//    @DeleteMapping(value = "/delete/{matricula}")
-//    public ResponseEntity<Aluno> deleteAlunoByMatricula(@PathVariable String matricula) {
-//        alunoService.deleteAlunoById(alunoService.findByMatricula(matricula).getId());
-//        return new ResponseEntity("Aluno removido com sucesso!", HttpStatus.OK);
-//    }
 }

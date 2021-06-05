@@ -1,6 +1,5 @@
 package com.educacao.api.controller;
 
-import com.educacao.api.exceptions.ExceptionsNotFoundException;
 import com.educacao.api.model.Ano_letivo;
 import com.educacao.api.service.AnoLetivoService;
 import java.time.Duration;
@@ -58,8 +57,7 @@ public class AnoLetivoController {
     @ResponseStatus(HttpStatus.OK)
     @CrossOrigin
     public Mono<Ano_letivo> findOne(@PathVariable String id) {
-        return anoLetivoService.findById(id)
-                .switchIfEmpty(Mono.error(new ExceptionsNotFoundException("ano_letivo[%s].notFound", id)));
+        return anoLetivoService.findById(id);
     }
 
     //DELETE ONE BY ID
