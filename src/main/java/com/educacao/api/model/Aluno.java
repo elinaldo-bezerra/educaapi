@@ -3,7 +3,7 @@ package com.educacao.api.model;
 import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import lombok.Data; 
+import lombok.Data;
 
 /**
  * @author eli
@@ -17,7 +17,12 @@ public class Aluno {
     private String id;
     private String matricula;
     private String name;
-    private String imagem;
-    private Turma turma; 
+    private String imagem; 
+    private String cpf;
+    private Turma turma;
+
+    public String getCpf() {
+        return cpf;
+    }
 
 }

@@ -17,7 +17,7 @@
     <description>Projeto de avaliação Java/Angular</description>
     
     <properties>
-        <java.version>8</java.version>
+        <java.version>9</java.version>
     </properties>
     
     <dependencies>
@@ -84,6 +84,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>            
             <scope>test</scope>
+            <type>jar</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>            
             <type>jar</type>
         </dependency>
         

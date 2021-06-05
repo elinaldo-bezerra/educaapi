@@ -29,10 +29,10 @@ public class AlunoControllerTest {
 
     @Test
     public void testGetAllProductShouldBeOk() {
-        final Aluno aluno1 = new Aluno("1", "1111", "ELINALDO", "url da imagem de elinaldo", null);
-        final Aluno aluno2 = new Aluno("2", "2222", "NALDO", "url da imagem de NALDO", null);
-        final Aluno aluno3 = new Aluno("3", "3333", "ELI", "url da imagem de ELI", null);
-        final Aluno aluno4 = new Aluno("4", "4444", "ANA", "url da imagem de ANA", null);
+        final Aluno aluno1 = new Aluno("1", "1111", "ELINALDO", "url da imagem de elinaldo", "039.690.554-40", null);
+        final Aluno aluno2 = new Aluno("2", "2222", "NALDO", "url da imagem de NALDO", "039.690.554-40",null);
+        final Aluno aluno3 = new Aluno("3", "3333", "ELI", "url da imagem de ELI", "039.690.554-40",null);
+        final Aluno aluno4 = new Aluno("4", "4444", "ANA", "url da imagem de ANA","039.690.554-41", null);
 
         given(alunoService.findAll()).willReturn(Flux.just(aluno1, aluno2, aluno3, aluno4));
 
