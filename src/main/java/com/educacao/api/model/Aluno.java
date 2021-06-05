@@ -11,7 +11,6 @@ import lombok.Data;
 @Document
 @Data
 @AllArgsConstructor
-//@NoArgsConstructor
 public class Aluno {
 
     @Id

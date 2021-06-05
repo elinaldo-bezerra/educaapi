@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -11,6 +12,7 @@ import lombok.Data;
  */
 @Document
 @Data
+@AllArgsConstructor
 public class Escola { 
     @Id
     private String id;
