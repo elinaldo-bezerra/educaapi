@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
  */
 public interface AlunoService {
 
-    Mono<Aluno> save(Aluno aluno);
+    Mono<Aluno> save(Aluno aluno); 
 
     Mono<Aluno> findById(String id);
 
