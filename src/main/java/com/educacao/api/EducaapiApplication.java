@@ -24,6 +24,7 @@ public class EducaapiApplication {
         return new WebFluxConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
+                System.out.println("Tudo certo........");
                 registry.addMapping("/**").allowedMethods("*").allowedOrigins("*").allowedHeaders("*");               
             }
         };

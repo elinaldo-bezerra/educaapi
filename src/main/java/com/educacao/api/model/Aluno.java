@@ -20,9 +20,4 @@ public class Aluno {
     private String imagem; 
     private String cpf;
     private Turma turma;
-
-    public String getCpf() {
-        return cpf;
-    }
-
 }

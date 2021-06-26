@@ -17,7 +17,7 @@
     <description>Projeto de avaliação Java/Angular</description>
     
     <properties>
-        <java.version>9</java.version>
+        <java.version>8</java.version>
     </properties>
     
     <dependencies>
@@ -99,22 +99,38 @@
             <version>8.0</version>
             <type>jar</type>
         </dependency>
-    
+  
     </dependencies>  
     
     <build>
+        <defaultGoal>compile</defaultGoal>
+
         <plugins>
             
+            <!--            <plugin>-->
+            <!--                <groupId>com.heroku.sdk</groupId>-->
+            <!--                <artifactId>heroku-maven-plugin</artifactId>-->
+            <!--                <version>3.0.3</version>-->
+            <!--            </plugin>-->
+
             <plugin>
-                <groupId>com.heroku.sdk</groupId>
-                <artifactId>heroku-maven-plugin</artifactId>
-                <version>3.0.3</version>
-            </plugin> 
-            
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>      
              
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
              
         </plugins>
